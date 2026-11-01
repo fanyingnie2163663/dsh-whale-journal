@@ -23,7 +23,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "node scripts/test-store.mjs && node scripts/test-digest.mjs && node scripts/test-audit.mjs",
+    "test": "node scripts/test-store.mjs && node scripts/test-digest.mjs && node scripts/test-audit.mjs && node scripts/test-sanitize.mjs",
     "check": "node scripts/check.mjs",
     "verify": "npm test && npm run check"
   },
