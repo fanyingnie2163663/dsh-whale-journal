@@ -14,11 +14,12 @@
 
 | 工具 | 作用 | 写？ |
 |---|---|---|
-| `journal_write` | 写一条日记（正文 + scope + 可选 date/mood/refs） | 是 |
+| `journal_write` | 写一条日记（正文 + scope + 可选 date/mood/refs/doodle/photos） | 是 |
 | `journal_read` | 读最近的日记（按 scope/日期过滤） | 否 |
 | `journal_search` | 按关键词搜日记 | 否 |
 | `journal_digest` | 取某天某 scope 的素材：带 seq 的消息 + 最近日记 + 写作规则 | 否 |
 | `journal_audit` | 接地审计：refs 能否在消息归档里回查、重复、数字 token | 否 |
+| `journal_peek` | 读取「被偷看」的只读事实（次数 / 按天 / 上次时间） | 否 |
 | `journal_archive` | 归档（软删除，可回滚） | 是 |
 
 `journal_digest` 是给「夜间写日记」用的：拿到素材 → agent 写 3–5 句 → `journal_write`，`refs` 填素材里的 `[数字]`（消息 seq）。

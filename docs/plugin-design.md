@@ -77,11 +77,12 @@
 
 | 工具 | 参数 | 返回 | 备注 |
 |---|---|---|---|
-| `journal_write` | `text`(必填)、`scope`(必填)、`date?`、`mood?`、`refs?` | 条目 + `remaining`、`charCount` | 超上限/超条数抛错 |
+| `journal_write` | `text`(必填)、`scope`(必填)、`date?`、`mood?`、`refs?`、`doodle?`、`photos?` | 条目 + `remaining`、`charCount`、`dropped` | 超上限/超条数抛错；坏画/坏照片只丢弃 |
 | `journal_read` | `scope?`、`date?`、`limit?=5`、`includeArchived?` | `{count, entries}` | 最新在前 |
 | `journal_search` | `query`(必填)、`scope?`、`limit?=10` | `{count, entries(带 score)}` | 子串匹配，正文×2 + 心情×1 |
 | `journal_digest` | `scope`(必填)、`date?`、`maxMessages?=200` | `{text, stats, empty?, hint?}` | 无消息返回 `empty:true`，不算错 |
 | `journal_audit` | `scope?`、`from?`、`to?` | `{summary, rows, duplicates}` | 只验证 refs 可回查 |
+| `journal_peek` | 无 | `{total, today, lastAt, byDay, last7}` | 只读事实；写日记的会话不注入 |
 | `journal_archive` | `id`(必填)、`reason?` | `{id, status}` | 软删除 |
 
 工具描述一律中文（agent 的上下文是中文），并且明确「不要每轮都读日记」——避免把日记变成新的刷屏源。

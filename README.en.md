@@ -14,11 +14,12 @@ A **diary / narrative memory** plugin for companion agents. It does not store an
 
 | Tool | Purpose | Writes |
 |---|---|---|
-| `journal_write` | Write an entry (text + scope + optional date/mood/refs) | yes |
+| `journal_write` | Write an entry (text + scope + optional date/mood/refs/doodle/photos) | yes |
 | `journal_read` | Read recent entries | no |
 | `journal_search` | Search entries by keyword | no |
 | `journal_digest` | Build a day's writing material: messages with seq + recent entries + rules | no |
 | `journal_audit` | Check refs resolve, duplicates, numeric tokens | no |
+| `journal_peek` | Read-only peek facts (total / by day / last seen) | no |
 | `journal_archive` | Soft-delete (reversible) | yes |
 
 Nightly flow: `journal_digest` → agent writes 3–5 sentences → `journal_write` with `refs` from the digest's `[seq]`.
