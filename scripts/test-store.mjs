@@ -27,6 +27,14 @@ function ok(cond, name, extra = '') {
     console.error(`  ❌ ${name}${extra ? ` — ${extra}` : ''}`);
   }
 }
+function throws(fn) {
+  try {
+    fn();
+    return false;
+  } catch {
+    return true;
+  }
+}
 
 const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'journal-store-'));
 const SCOPE = 'group:100000001';
@@ -124,6 +132,43 @@ try {
       let threw = false;
       try { writeEntry(dir, input); } catch { threw = true; }
       ok(threw, `${name} 抛错`);
+    }
+  }
+
+  console.log('\n## 画与照片字段');
+  {
+    const artDir = fs.mkdtempSync(path.join(os.tmpdir(), 'journal-art-'));
+    try {
+      const withArt = writeEntry(artDir, {
+        text: '今天画了晚霞。',
+        scope: 'group:100000001',
+        date: '2026-11-02',
+        doodle: { svg: '<path d="M0 0 L10 10"/>', anchor: '晚霞', side: 'right' },
+        photos: [{ file: 'media/2026-11-02/ab12cd34ef56.jpg', anchor: '晚霞', side: 'right', caption: '她发的' }]
+      }, { now: Date.now(), maxEntriesPerDay: 3 });
+      const back = loadEntries(artDir).find((e) => e.id === withArt.entry.id);
+      ok(back?.doodle?.anchor === '晚霞' && back.doodle.side === 'right', 'doodle 往返');
+      ok(
+        back?.photos?.length === 1 && back.photos[0].file === 'media/2026-11-02/ab12cd34ef56.jpg',
+        'photos 往返'
+      );
+      ok(
+        throws(() => writeEntry(artDir, { text: 'x', scope: 'global', photos: [{ file: '../x.jpg' }] })),
+        '非法 photo.file 抛错'
+      );
+      ok(
+        throws(() => writeEntry(artDir, {
+          text: 'x',
+          scope: 'global',
+          photos: Array(4).fill({ file: 'media/2026-11-02/ab12cd34ef56.jpg' })
+        })),
+        'photos 超过 3 张抛错'
+      );
+      const plain = writeEntry(artDir, { text: '没有画也没有照片。', scope: 'global', date: '2026-11-03' }, { now: Date.now(), maxEntriesPerDay: 3 });
+      const plainBack = loadEntries(artDir).find((e) => e.id === plain.entry.id);
+      ok(!('doodle' in plainBack) && !('photos' in plainBack), '没有画/照片时不写这两个字段');
+    } finally {
+      fs.rmSync(artDir, { recursive: true, force: true });
     }
   }
 } finally {
