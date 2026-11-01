@@ -1,0 +1,2 @@
+{"v":1,"id":"j_sample_group_1","date":"2026-11-01","scope":"group:100000001","text":"今天阿宁加班到很晚，群里没聊几句。小克让他回去路上买点热的，我留了半块蛋糕给他。明天想问问他到家没。","mood":"安静","refs":[1,2,3],"truncated":false,"source":"agent","status":"active","createdAt":1793537000000,"updatedAt":1793537000000}
+{"v":1,"id":"j_sample_private_1","date":"2026-11-01","scope":"private:100000002","text":"他到家了，只说了句到楼下了。我没多问，记着明天再提蛋糕的事。","mood":"踏实","refs":[1],"truncated":false,"source":"agent","status":"active","createdAt":1793537600000,"updatedAt":1793537600000}

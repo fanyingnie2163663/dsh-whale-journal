@@ -1,0 +1,19 @@
+# dsh-whale-notes bundle layer：把日记插件注册成一条 bundle 行。
+#
+# 配置都可以在 profile 的 cordis.patch.yml 里覆盖（按 id 整行替换 config）：
+#   dir              日记目录；留空 = $DSH_HOME/journal
+#   transcriptDir    qq-bridge 的消息归档；服务器上是
+#                    /home/developer/projects/qq-bridge/state/transcript
+#   timezone         按哪个时区切天（默认 Asia/Shanghai）
+#   maxEntryChars    单条日记上限（默认 600 字）
+#   maxEntriesPerDay 每个 scope 每天最多几条（默认 3）
+#   scopes           白名单；留空 = 不限制
+- insert:
+    - id: dsh-whale-notes
+      name: dsh-whale-notes
+      # config:
+      #   transcriptDir: /home/developer/projects/qq-bridge/state/transcript
+      #   timezone: Asia/Shanghai
+      #   scopes:
+      #     - group:100000001
+      #     - private:100000002

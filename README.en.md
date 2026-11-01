@@ -1,0 +1,74 @@
+# Whale Journal · dsh-whale-notes
+
+A **diary / narrative memory** plugin for companion agents. It does not store another copy of the chat log: it lets the agent write a few first-person lines each day, grounded in that day's messages.
+
+> Status: v0.1 — tools, storage, digest and grounding audit. Web panel, scheduling and weekly LLM review are on the roadmap.
+
+## What it is / is not
+
+- Is: write per day and per scope (group/private), read/search/archive, build a prompt-ready digest from a day's messages, audit whether `refs` resolve.
+- Is not: no model calls, no network, no auto-writing, no prompt injection. It does not decide what to write.
+- Separate from fact cards: cards store facts (who is who, promises); the journal stores the agent's own view.
+
+## Tools
+
+| Tool | Purpose | Writes |
+|---|---|---|
+| `journal_write` | Write an entry (text + scope + optional date/mood/refs) | yes |
+| `journal_read` | Read recent entries | no |
+| `journal_search` | Search entries by keyword | no |
+| `journal_digest` | Build a day's writing material: messages with seq + recent entries + rules | no |
+| `journal_audit` | Check refs resolve, duplicates, numeric tokens | no |
+| `journal_archive` | Soft-delete (reversible) | yes |
+
+Nightly flow: `journal_digest` → agent writes 3–5 sentences → `journal_write` with `refs` from the digest's `[seq]`.
+
+## Storage
+
+`$DSH_HOME/journal/entries.jsonl`, one JSON per line. Edits and archives append a new record with the same `id`; reads fold by `id` (last wins).
+
+- 600 chars per entry by default (truncated flag);
+- 3 entries per scope per day by default;
+- archived entries are excluded from read/search/audit by default;
+- malformed lines are skipped.
+
+`samples/` contains synthetic data for tests.
+
+## Configuration
+
+| Key | Default | Meaning |
+|---|---|---|
+| `dir` | `''` | Journal dir; empty = `$DSH_HOME/journal` |
+| `transcriptDir` | `''` | Message archive (qq-bridge `state/transcript`); empty disables digest/audit |
+| `timezone` | `Asia/Shanghai` | Day boundary |
+| `maxEntryChars` | `600` | Entry limit |
+| `maxEntriesPerDay` | `3` | Per scope per day |
+| `retentionDays` | `365` | Archived retention |
+| `scopes` | `[]` | Allowed scopes; empty = any |
+
+Validated by the Schemastery `Config` in `lib/index.js`.
+
+## Install
+
+```sh
+pnpm pack
+dsh plugin --profile <name> add ./dsh-whale-notes-0.1.0.tgz
+dsh --profile <name> --dump-config | grep dsh-whale-notes
+```
+
+## Privacy
+
+- Local-only storage; no network or model calls.
+- Entries are scoped; a group journal never reads private entries (caller passes scope).
+- Prompts tell the writer not to include QQ numbers, private facts or real names; outbound guarding lives in the bridge.
+
+## Development
+
+```sh
+npm test
+node "<dsh-plugin-guide>/bin/dsh-plugin-dev.js" check --cwd .
+```
+
+## License
+
+Apache-2.0.

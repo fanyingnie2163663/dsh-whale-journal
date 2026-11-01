@@ -1,0 +1,5 @@
+{"v":1,"day":"2026-11-01","ts":1793534400000,"at":"2026-11-01T12:00:00.000Z","seq":1,"messageId":"sample-1","sender":"阿宁","userId":"10001","text":"今天加班到九点，人已经麻了","isSelf":false,"scope":"group:100000001"}
+{"v":1,"day":"2026-11-01","ts":1793535000000,"at":"2026-11-01T12:10:00.000Z","seq":2,"messageId":"sample-2","sender":"小克","userId":"10002","text":"摸摸，回去路上买点热的","isSelf":false,"scope":"group:100000001"}
+{"v":1,"day":"2026-11-01","ts":1793535600000,"at":"2026-11-01T12:20:00.000Z","seq":3,"messageId":"sample-3","sender":"我","userId":"","text":"我给你留了半块蛋糕，放冰箱了","isSelf":true,"scope":"group:100000001"}
+{"v":1,"day":"2026-11-01","ts":1793536200000,"at":"2026-11-01T12:30:00.000Z","seq":4,"messageId":"sample-4","sender":"阿宁","userId":"10001","text":"好，明天见","isSelf":false,"scope":"group:100000001"}
+{"v":1,"day":"2026-11-01","ts":1793536800000,"at":"2026-11-01T12:40:00.000Z","seq":1,"messageId":"sample-p1","sender":"阿宁","userId":"10001","text":"私聊：我到楼下了","isSelf":false,"scope":"private:100000002"}

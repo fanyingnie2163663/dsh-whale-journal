@@ -1,0 +1,57 @@
+{
+  "name": "dsh-whale-notes",
+  "version": "0.1.0",
+  "description": "小肥鱼日记：给陪伴型 agent 的日记/叙事记忆插件。按天写作、按场景存储、可接地审计。",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./store": "./lib/store.js",
+    "./digest": "./lib/digest.js",
+    "./audit": "./lib/audit.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "README.md",
+    "README.en.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/test-store.mjs && node scripts/test-digest.mjs && node scripts/test-audit.mjs",
+    "check": "node scripts/check.mjs",
+    "verify": "npm test && npm run check"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "cordis",
+    "journal",
+    "diary",
+    "memory",
+    "companion",
+    "qq"
+  ],
+  "license": "Apache-2.0",
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0",
+    "dsh": ">=0.1.2-rc.1 <0.2.0 || >=0.1.5-alpha.1 <0.2.0 || >=0.1.6-0 <0.2.0 || >=0.1.7-0 <0.2.0 || >=0.2.0-0 <0.3.0 || >=0.2.1-0 <0.3.0"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-tools": ">=0.1.2-rc.1 <0.2.0 || >=0.1.5-alpha.1 <0.2.0 || >=0.1.6-0 <0.2.0 || >=0.1.7-0 <0.2.0 || >=0.2.0-0 <0.3.0 || >=0.2.1-0 <0.3.0",
+    "@deepseek-ai/schemastery": "^3.18.2"
+  },
+  "packageManager": "pnpm@11.7.0",
+  "dsh": {
+    "manifestVersion": 1,
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}

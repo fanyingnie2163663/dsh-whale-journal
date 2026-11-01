@@ -1,0 +1,19 @@
+node_modules/
+*.tgz
+.DS_Store
+Thumbs.db
+*.log
+
+# 内部资料：含真实 QQ 号/群号/聊天事实，只在本机参考，不随插件发布。
+docs/小肥鱼记忆*.md
+docs/内部-*.md
+
+# 从桥接侧复制来的记忆内核参考：只在本机只读参考，不随仓库发布。
+reference/
+
+# 本地试装/调试产物
+.dsh/
+tmp/
+
+# 设计阶段的 mockup（visual companion）
+.superpowers/
