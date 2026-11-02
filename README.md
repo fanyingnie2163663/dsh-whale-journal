@@ -1,4 +1,4 @@
-# 小肥鱼日记 · dsh-whale-notes
+# 小肥鱼日记 · dsh-whale-journal
 
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-2f4a86)](LICENSE)
 [![Node](https://img.shields.io/badge/node-%5E22.19%20%7C%7C%20%3E%3D24-2f4a86)](package.json)
@@ -14,11 +14,11 @@
 ## 装一下
 
 ```sh
-dsh plugin --profile <你的 profile> add "github:fanyingnie2163663/dsh-whale-notes#v0.1.1"
+dsh plugin --profile <你的 profile> add "github:fanyingnie2163663/dsh-whale-journal#v0.1.2"
 ```
 
 重启 DSH 生效，`dsh --profile <你的 profile> --dump-config | grep whale` 能看到就装上了。
-想要更新到最新，把 `#v0.1.1` 换成具体 commit 再装一次；不想被上游改动影响时就固定在这个 tag 上。
+想要更新到最新，把 `#v0.1.2` 换成具体 commit 再装一次；不想被上游改动影响时就固定在这个 tag 上。
 
 装完在 `cordis.yml` 里给它配一个 `transcriptDir`（消息归档目录），`journal_digest` 和 `journal_audit` 才有素材。
 
@@ -27,8 +27,8 @@ dsh plugin --profile <你的 profile> add "github:fanyingnie2163663/dsh-whale-no
 不用接真实消息，仓库里就有合成数据：
 
 ```sh
-git clone https://github.com/fanyingnie2163663/dsh-whale-notes
-cd dsh-whale-notes
+git clone https://github.com/fanyingnie2163663/dsh-whale-journal
+cd dsh-whale-journal
 npm test                      # 全套单测，不联网
 node scripts/preview-page.mjs # 起 /journal 页面，用合成日记 + 简笔画 + 照片
 ```

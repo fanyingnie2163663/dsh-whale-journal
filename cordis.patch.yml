@@ -1,4 +1,4 @@
-# dsh-whale-notes bundle layer：把日记插件注册成一条 bundle 行。
+# dsh-whale-journal bundle layer：把日记插件注册成一条 bundle 行。
 #
 # 配置都可以在 profile 的 cordis.patch.yml 里覆盖（按 id 整行替换 config）：
 #   dir              日记目录；留空 = $DSH_HOME/journal
@@ -9,8 +9,8 @@
 #   maxEntriesPerDay 每个 scope 每天最多几条（默认 3）
 #   scopes           白名单；留空 = 不限制
 - insert:
-    - id: dsh-whale-notes
-      name: dsh-whale-notes
+    - id: dsh-whale-journal
+      name: dsh-whale-journal
       # config:
       #   transcriptDir: /home/developer/projects/qq-bridge/state/transcript
       #   timezone: Asia/Shanghai

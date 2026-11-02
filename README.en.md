@@ -1,4 +1,4 @@
-# Whale Journal · dsh-whale-notes
+# Whale Journal · dsh-whale-journal
 
 A **diary / narrative memory** plugin for companion agents. It does not store another copy of the chat log: it lets the agent write a few first-person lines each day, grounded in that day's messages.
 
@@ -11,7 +11,7 @@ A **diary / narrative memory** plugin for companion agents. It does not store an
 ## Install
 
 ```sh
-dsh plugin --profile <your-profile> add "github:fanyingnie2163663/dsh-whale-notes#v0.1.1"
+dsh plugin --profile <your-profile> add "github:fanyingnie2163663/dsh-whale-journal#v0.1.2"
 ```
 
 Restart DSH; `dsh --profile <your-profile> --dump-config | grep whale` should show it. Pin a tag or commit
@@ -80,8 +80,8 @@ Validated by the Schemastery `Config` in `lib/index.js`.
 
 ```sh
 pnpm pack
-dsh plugin --profile <name> add ./dsh-whale-notes-0.1.1.tgz
-dsh --profile <name> --dump-config | grep dsh-whale-notes
+dsh plugin --profile <name> add ./dsh-whale-journal-0.1.1.tgz
+dsh --profile <name> --dump-config | grep dsh-whale-journal
 ```
 
 ## Privacy

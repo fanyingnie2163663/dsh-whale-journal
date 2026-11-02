@@ -35,7 +35,7 @@ QQ ←→ qq-bridge（独立进程，SnowLuma SDK）
           ▼
    服务器 dsh web（web profile，24h）
      ├─ 会话 / 工具 / qq-bridge 的对话
-     └─ dsh-whale-notes（写日记 + 本子页面）
+     └─ dsh-whale-journal（写日记 + 本子页面）
           └─ $DSH_HOME/journal/（entries / media / peek）
 ```
 
