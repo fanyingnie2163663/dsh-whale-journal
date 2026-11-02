@@ -422,3 +422,8 @@ git commit -m "feat: expose doodle, photos and peek facts through journal tools"
 - `npm run check`：`result: OK`。
 - 手工：在临时目录用 `writeJournal` 写一条带画和照片的日记，`journal_audit` 能正常读到该条目（字段不影响 refs 审计）。
 - 不做：Web 页面、peek 的 HTTP 接口、照片从 digest 自动发现（M2/M3/M4）。
+
+## 执行后修订（2026-11-02）
+
+- Task 6 的 `doodle` / `photos` 参数从嵌套 object（`side` 带 enum）改为 `type: 'json'`：`defineTool` 会在 execute 前用 schema 拒绝非法 `side`，导致整条日记写入失败，违反 Review Focus 4。宽松接收后由 `sanitizeDoodle` / `normalizePhotoMeta` 丢弃并写入 `dropped`；回归守卫见 `scripts/test-tool-contract.mjs`。
+- `store.normalizeDoodleMeta` 现在也调用 `sanitizeDoodle`：store 是第二道边界，不再只依赖 `writeJournal` 一个调用点。
