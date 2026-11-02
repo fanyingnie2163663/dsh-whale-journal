@@ -23,7 +23,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "node scripts/test-store.mjs && node scripts/test-digest.mjs && node scripts/test-audit.mjs && node scripts/test-sanitize.mjs && node scripts/test-media.mjs && node scripts/test-write.mjs && node scripts/test-peek.mjs && node scripts/test-tool-contract.mjs && node scripts/test-page.mjs",
+    "test": "node scripts/test-store.mjs && node scripts/test-digest.mjs && node scripts/test-audit.mjs && node scripts/test-sanitize.mjs && node scripts/test-media.mjs && node scripts/test-write.mjs && node scripts/test-peek.mjs && node scripts/test-tool-contract.mjs && node scripts/test-page.mjs && node scripts/test-webserver.mjs",
     "check": "node scripts/check.mjs",
     "verify": "npm test && npm run check"
   },
