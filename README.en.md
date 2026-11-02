@@ -24,6 +24,17 @@ A **diary / narrative memory** plugin for companion agents. It does not store an
 
 Nightly flow: `journal_digest` → agent writes 3–5 sentences → `journal_write` with `refs` from the digest's `[seq]`.
 
+## Peeking page (read-only)
+
+The Web profile mounts a read-only page (headless / SDK profiles do not register it):
+
+- `http://127.0.0.1:3080/journal` (local or through an SSH tunnel; never expose it publicly)
+- no edit / upload / delete; it only reads `$DSH_HOME/journal`
+- opening a day records one peek (deduped for 10 minutes); the chat agent reads the facts through `journal_peek`
+- doodles / photos follow their `anchor` sentence; skipped when the anchor is missing
+
+Served directly by the DSH web server; no extra process.
+
 ## Storage
 
 `$DSH_HOME/journal/entries.jsonl`, one JSON per line. Edits and archives append a new record with the same `id`; reads fold by `id` (last wins).

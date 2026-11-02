@@ -112,10 +112,11 @@ QQ ←→ qq-bridge（独立进程，SnowLuma SDK）
 
 ## 8. UI 集成
 
-- 服务器 web profile 增加 client 插件（React），注册一个**侧栏 tab**：`id=journal`、图标是一尾鱼、标题低调（如「本子」）。
-- 页面只读：没有编辑/删除/上传按钮；只有翻页和选中某天。
-- Host 侧提供只读接口：`GET /journal/api/days`、`GET /journal/api/day?date=...&scope=...`、`POST /journal/peek`、`GET /journal/media/*`。
-- 渲染与抖动放在客户端；`seed = entry.id`，保证稳定。
+- 服务器 web profile 里通过 `ctx.webServer` 注册 `/journal` 前缀路由，直接提供只读页面（原生 HTML/CSS/JS，不做 client 插件与打包链）。
+- 页面只读：没有编辑/删除/上传按钮；只有翻页、选某天、按 scope 过滤。
+- 只读接口：`GET /journal/api/days`、`GET /journal/api/day?date=...&scope=...`、`GET /journal/media/*`、`POST /journal/api/peek`（唯一的写入口）。
+- 渲染与逐字抖动在浏览器端；`seed = entry.id`，保证同一篇每次一致。
+- headless / SDK profile 没有 `webServer`，只少一个页面，工具照常。
 - 第一版不做：QQ 图片、整本 PDF、搜索 UI、周检报告页。
 
 ## 9. 安全
@@ -138,7 +139,7 @@ QQ ←→ qq-bridge（独立进程，SnowLuma SDK）
 ## 11. 里程碑
 
 1. **M1 数据与工具**：`doodle` / `photos` 字段、`journal_peek`、存储与净化、测试。
-2. **M2 页面**：client 插件、侧栏 tab、按天翻页、手写渲染、简笔画/照片锚点。
+2. **M2 页面**：`/journal` 路由页面、数据接口、按天翻页、手写渲染、简笔画/照片锚点。
 3. **M3 偷看**：peek 接口、计数、README 入口说明。
 4. **M4 接线与部署**：桥接把照片带给 digest、夜间写日记、服务器安装与验收。
 5. 后续：QQ 发图、整本翻页、周检对账页。
