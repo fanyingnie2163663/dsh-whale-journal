@@ -78,9 +78,9 @@
 | 工具 | 参数 | 返回 | 备注 |
 |---|---|---|---|
 | `journal_write` | `text`(必填)、`scope`(必填)、`date?`、`mood?`、`refs?`、`doodle?`、`photos?` | 条目 + `remaining`、`charCount`、`dropped` | 超上限/超条数抛错；坏画/坏照片只丢弃 |
-| `journal_read` | `scope?`、`date?`、`limit?=5`、`includeArchived?` | `{count, entries}` | 最新在前 |
-| `journal_search` | `query`(必填)、`scope?`、`limit?=10` | `{count, entries(带 score)}` | 子串匹配，正文×2 + 心情×1 |
-| `journal_digest` | `scope`(必填)、`date?`、`maxMessages?=200` | `{text, stats, empty?, hint?}` | 无消息返回 `empty:true`，不算错 |
+| `journal_read` | `scope?`、`date?`、`limit?=5`、`includeArchived?` | `{count, entries}` | 最新在前；渲染时画/照片只出摘要，不返回 SVG |
+| `journal_search` | `query`(必填)、`scope?`、`limit?=10` | `{count, entries(带 score)}` | 子串匹配，正文×2 + 心情×1；画/照片只出摘要 |
+| `journal_digest` | `scope`(必填)、`date?`、`maxMessages?=200` | `{text, photos, stats, empty?, hint?}` | 无消息返回 `empty:true`，不算错；photos 是最多 20 张候选路径 |
 | `journal_audit` | `scope?`、`from?`、`to?` | `{summary, rows, duplicates}` | 只验证 refs 可回查 |
 | `journal_peek` | 无 | `{total, today, lastAt, byDay, last7}` | 只读事实；写日记的会话不注入 |
 | `journal_archive` | `id`(必填)、`reason?` | `{id, status}` | 软删除 |
@@ -109,7 +109,8 @@ Schemastery `Config`（`lib/index.js`），所有可调参数不硬编码：
 2. 最近 3 篇日记（保持语气/话题连续）；
 3. 写作规则（3–5 句、第一人称、只写真实发生、不写号码、可选「明天想…」、refs 用 seq）；
 4. 聊天记录：`[seq] HH:MM 名字：正文`，按 seq 排序；
-5. 预算：默认 200 条 / 12,000 字符；超了从最旧丢，并注明「更早的 N 条已省略」。
+5. 当天可用的照片（可选）：从 transcript 的 `images` 收集路径、谁发的、时间、seq；按 path 去重，最多 20 张；只给路径，不读图片字节；
+6. 预算：默认 200 条 / 12,000 字符；超了从最旧丢，并注明「更早的 N 条已省略」。
 
 不做的事：不摘要、不判断重要性、不删敏感词——这些是写作会话和桥接守卫的事。
 
@@ -134,10 +135,11 @@ Schemastery `Config`（`lib/index.js`），所有可调参数不硬编码：
 `state/transcript/YYYY-MM-DD.jsonl`，一行一条：
 
 ```json
-{"v":1,"day":"2026-11-01","ts":1793534400000,"at":"...","seq":1,"messageId":"...","sender":"阿宁","userId":"10001","text":"...","isSelf":false,"scope":"group:100000001"}
+{"v":1,"day":"2026-11-01","ts":1793534400000,"at":"...","seq":1,"messageId":"...","sender":"阿宁","userId":"10001","text":"...","isSelf":false,"scope":"group:100000001","images":[{"path":"/srv/qq-bridge/state/images/2026-11-01/a.jpg"}]}
 ```
 
 - `seq` 必须稳定；`scope` 必须和日记一致；`text` 已经过桥接的入库清洗。
+- `images` 可选：桥接写本机图片路径；插件只读路径，不读字节，也不校验图片内容。
 - 只保留 90 天；超过就删（周检只回看一周，足够）。
 
 ### 10.2 夜间流程（桥接编排）

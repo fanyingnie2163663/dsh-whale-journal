@@ -43,9 +43,9 @@ try {
   fs.writeFileSync(
     path.join(dir, '2026-11-01.jsonl'),
     [
-      line(1, '阿宁', '今天好累，不想动'),
-      line(2, '小克', '摸摸，早点睡'),
-      line(3, '我', '[图片]', { isSelf: true, userId: '' }),
+      line(1, '阿宁', '今天好累，不想动', { images: ['C:/photos/sunset.jpg'] }),
+      line(2, '小克', '摸摸，早点睡', { images: ['C:/photos/cat.png'] }),
+      line(3, '我', '[图片]', { isSelf: true, userId: '', images: [{ path: 'C:/photos/sunset.jpg' }] }),
       line(4, '阿宁', '私聊说晚安', { scope: PRIVATE }),
       '{bad json}'
     ].join('\n') + '\n',
@@ -71,6 +71,9 @@ try {
     ok(d.text.includes('journal_write') && d.text.includes('refs'), '带写作规则');
     ok(d.text.indexOf('[1]') < d.text.indexOf('[2]'), '按 seq 排序');
     ok(!d.text.includes('私聊说晚安'), '不串 scope');
+    ok(d.photos.length === 2, '照片按 path 去重');
+    ok(d.photos.find((p) => p.path.endsWith('sunset.jpg'))?.from === '阿宁', '照片带发送者');
+    ok(d.text.includes('【当天可用的照片') && d.text.includes('sunset.jpg'), '文本里列出照片候选');
   }
 
   console.log('\n## 预算裁剪');
@@ -83,12 +86,27 @@ try {
     ok(tight.stats.omitted > 0, '记录省略条数');
   }
 
+  console.log('\n## 照片上限');
+  {
+    const many = Array.from({ length: 25 }, (_, i) => ({
+      seq: i + 1,
+      ts: base + i,
+      sender: 'x',
+      text: 'y',
+      images: [`p${i}.png`]
+    }));
+    const d = formatDigest({ date: '2026-11-01', scope: GROUP, messages: many });
+    ok(d.photos.length === 20, '照片最多 20 张');
+  }
+
   console.log('\n## 构建（读文件）');
   {
     const d = buildDigest({ transcriptDir: dir, scope: GROUP, date: '2026-11-01', entries: [] });
     ok(!d.empty && d.text.includes('今天好累'), 'buildDigest 读出当天');
+    ok(d.photos.length === 2, 'buildDigest 带照片候选');
     const empty = buildDigest({ transcriptDir: dir, scope: GROUP, date: '2026-10-30' });
     ok(empty.empty === true && typeof empty.hint === 'string', '没有消息时 empty=true + hint');
+    ok(empty.photos.length === 0, '空天没有照片');
     let threw = false;
     try { buildDigest({ transcriptDir: '', scope: GROUP }); } catch { threw = true; }
     ok(threw, '未配置 transcriptDir 时抛错');
