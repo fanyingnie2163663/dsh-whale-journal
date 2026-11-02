@@ -99,7 +99,7 @@ body {
   color: var(--ink);
   padding: 46px 42px 60px 66px;
   font-family: "XianErTi", "贤二体", "Yozai", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
-  font-size: 17px;
+  font-size: 18.5px;
   line-height: 32px;
   background-image:
     linear-gradient(90deg, transparent 0 46px, var(--margin) 46px 47px, transparent 47px),
@@ -187,7 +187,7 @@ body {
     width: 100%;
     margin: 14px auto 60px;
     padding: 34px 20px 46px 42px;
-    font-size: 16px;
+    font-size: 17px;
   }
   .doodle.side-right, .doodle.side-left { width: 104px; }
   .photo { width: 126px; }
