@@ -17,3 +17,6 @@ tmp/
 
 # 设计阶段的 mockup（visual companion）
 .superpowers/
+
+# 本地渲染/试装临时目录
+.tmp/

@@ -26,6 +26,7 @@
   "scripts": {
     "test": "node scripts/test-store.mjs && node scripts/test-digest.mjs && node scripts/test-audit.mjs && node scripts/test-sanitize.mjs && node scripts/test-media.mjs && node scripts/test-write.mjs && node scripts/test-peek.mjs && node scripts/test-tool-contract.mjs && node scripts/test-format.mjs && node scripts/test-page.mjs && node scripts/test-webserver.mjs",
     "check": "node scripts/check.mjs",
+    "preview": "node scripts/preview-page.mjs",
     "verify": "npm test && npm run check"
   },
   "keywords": [
@@ -40,6 +41,14 @@
     "qq"
   ],
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fanyingnie2163663/dsh-whale-notes.git"
+  },
+  "homepage": "https://github.com/fanyingnie2163663/dsh-whale-notes#readme",
+  "bugs": {
+    "url": "https://github.com/fanyingnie2163663/dsh-whale-notes/issues"
+  },
   "engines": {
     "node": "^22.19.0 || >=24.0.0",
     "dsh": ">=0.1.2-rc.1 <0.2.0 || >=0.1.5-alpha.1 <0.2.0 || >=0.1.6-0 <0.2.0 || >=0.1.7-0 <0.2.0 || >=0.2.0-0 <0.3.0 || >=0.2.1-0 <0.3.0"

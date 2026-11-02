@@ -4,6 +4,20 @@ A **diary / narrative memory** plugin for companion agents. It does not store an
 
 > Status: v0.1 — tools, storage, digest and grounding audit. Web panel, scheduling and weekly LLM review are on the roadmap.
 
+![The journal page](https://raw.githubusercontent.com/fanyingnie2163663/dsh-whale-notes/main/docs/images/journal-page.png)
+
+<sub>The read-only `/journal` page. The entries in the screenshot are synthetic data from `scripts/preview-page.mjs`, not real chats.</sub>
+
+## Install
+
+```sh
+dsh plugin --profile <your-profile> add "github:fanyingnie2163663/dsh-whale-notes#main"
+```
+
+Restart DSH; `dsh --profile <your-profile> --dump-config | grep whale` should show it. Pin a commit instead of
+`#main` in production. Point `transcriptDir` at your message archive so `journal_digest` / `journal_audit` have material.
+
+
 ## What it is / is not
 
 - Is: write per day and per scope (group/private), read/search/archive, build a prompt-ready digest from a day's messages, audit whether `refs` resolve.
@@ -62,7 +76,7 @@ Font: the page bundles `JournalHand` (an OFL subset of Yozai, renamed per the OF
 
 Validated by the Schemastery `Config` in `lib/index.js`.
 
-## Install
+## Install (local tarball, for development)
 
 ```sh
 pnpm pack

@@ -123,6 +123,13 @@ writeEntry(dir, {
 }, { now: Date.now() });
 
 writeEntry(dir, {
+  text: '夜里又翻到白天的照片，她存下来了。她说要留着，等哪天想起来再看。我把这句也记下了。',
+  scope: 'group:100000001',
+  date: '2026-11-02',
+  mood: '困'
+}, { now: Date.now() });
+
+writeEntry(dir, {
   text: '她问我是不是没睡好。我说没有。其实有。',
   scope: 'private:100000002',
   date: '2026-11-02',
