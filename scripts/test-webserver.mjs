@@ -1,4 +1,4 @@
-// /journal HTTP 处理器自检：页面、数据、媒体、peek、路径与坏输入。
+// /journal HTTP 处理器自检：页面、数据、媒体、peek、路径、来源与坏输入。
 // 运行：node scripts/test-webserver.mjs
 import fs from 'node:fs';
 import http from 'node:http';
@@ -28,11 +28,37 @@ fs.writeFileSync(path.join(assetsDir, 'journal.js'), 'console.log(1)');
 fs.mkdirSync(path.join(dir, 'media', '2026-11-02'), { recursive: true });
 fs.writeFileSync(path.join(dir, 'media', '2026-11-02', 'a.jpg'), Buffer.from([0xff, 0xd8, 0xff]));
 
+const outside = path.join(dir, 'outside');
+fs.mkdirSync(outside, { recursive: true });
+fs.writeFileSync(path.join(outside, 'secret.txt'), 'secret');
+let linked = false;
+try {
+  fs.symlinkSync(outside, path.join(dir, 'media', '2026-11-02', 'link'), 'junction');
+  linked = true;
+} catch {
+  // 某些平台不允许建链接：跳过这一条
+}
+
 writeEntry(dir, { text: '今天画了晚霞。', scope: 'group:100000001', date: '2026-11-02' }, { now: 1 });
 
 const server = http.createServer(createJournalHandler({ dir, assetsDir }));
 await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
-const base = `http://127.0.0.1:${server.address().port}`;
+const port = server.address().port;
+const base = `http://127.0.0.1:${port}`;
+const jsonHeaders = { 'content-type': 'application/json' };
+
+function rawRequest(pathname, { method = 'GET', headers = {}, body } = {}) {
+  return new Promise((resolve, reject) => {
+    const req = http.request({ host: '127.0.0.1', port, path: pathname, method, headers }, (res) => {
+      const chunks = [];
+      res.on('data', (chunk) => chunks.push(chunk));
+      res.on('end', () => resolve({ status: res.statusCode, headers: res.headers, body: Buffer.concat(chunks).toString() }));
+    });
+    req.on('error', reject);
+    if (body !== undefined) req.write(body);
+    req.end();
+  });
+}
 
 try {
   console.log('## 页面与资产');
@@ -61,24 +87,62 @@ try {
     ok(okImg.status === 200 && okImg.headers.get('content-type') === 'image/jpeg', '媒体 200 + 类型');
     const bad = await fetch(`${base}/journal/media/%2e%2e%2f%2e%2e%2fcredentials.yaml`);
     ok(bad.status === 404 || bad.status === 400, '媒体穿越被拒绝');
+    if (linked) {
+      const viaLink = await fetch(`${base}/journal/media/2026-11-02/link/secret.txt`);
+      ok(viaLink.status === 404, 'junction 越界被拒绝');
+    }
+  }
+
+  console.log('\n## 来源校验');
+  {
+    const evilHost = await rawRequest('/journal/api/days', { headers: { host: 'evil.example' } });
+    ok(evilHost.status === 403, '非 loopback Host 403');
   }
 
   console.log('\n## peek');
   {
-    const first = await fetch(`${base}/journal/api/peek`, {
+    const first = await rawRequest('/journal/api/peek', {
       method: 'POST',
+      headers: jsonHeaders,
       body: JSON.stringify({ date: '2026-11-02' })
     });
-    ok((await first.json()).recorded === true, '第一次记录');
-    const second = await fetch(`${base}/journal/api/peek`, {
+    ok(JSON.parse(first.body).recorded === true, '第一次记录');
+    const second = await rawRequest('/journal/api/peek', {
       method: 'POST',
+      headers: jsonHeaders,
       body: JSON.stringify({ date: '2026-11-02' })
     });
-    ok((await second.json()).recorded === false, '10 分钟内去重');
-    const badJson = await fetch(`${base}/journal/api/peek`, { method: 'POST', body: '{' });
+    ok(JSON.parse(second.body).recorded === false, '10 分钟内去重');
+
+    const badJson = await rawRequest('/journal/api/peek', { method: 'POST', headers: jsonHeaders, body: '{' });
     ok(badJson.status === 400, '坏 JSON 400');
-    const badDate = await fetch(`${base}/journal/api/peek`, { method: 'POST', body: JSON.stringify({ date: 'x' }) });
+    const badDate = await rawRequest('/journal/api/peek', {
+      method: 'POST',
+      headers: jsonHeaders,
+      body: JSON.stringify({ date: 'x' })
+    });
     ok(badDate.status === 400, '坏 date 400');
+
+    const plain = await rawRequest('/journal/api/peek', {
+      method: 'POST',
+      headers: { 'content-type': 'text/plain' },
+      body: JSON.stringify({ date: '2026-11-03' })
+    });
+    ok(plain.status === 415, 'peek 要求 application/json');
+
+    const evilOrigin = await rawRequest('/journal/api/peek', {
+      method: 'POST',
+      headers: { ...jsonHeaders, origin: 'https://evil.example' },
+      body: JSON.stringify({ date: '2026-11-03' })
+    });
+    ok(evilOrigin.status === 403, '跨源 Origin 403');
+
+    const badScope = await rawRequest('/journal/api/peek', {
+      method: 'POST',
+      headers: jsonHeaders,
+      body: JSON.stringify({ date: '2026-11-03', scope: 'x'.repeat(200) })
+    });
+    ok(badScope.status === 400, '非法 scope 400');
   }
 } finally {
   server.closeAllConnections?.();

@@ -1,11 +1,13 @@
 # 字体说明
 
-## Yozai（悠哉字体）——随页面打包
+## JournalHand（随页面打包）
 
-- 文件：`yozai.woff2`（GB2312 + ASCII + 常用标点的子集）
-- 来源：https://github.com/lxgw/yozai-font
+- 文件：`journal-hand.woff2`
+- 来源：悠哉字体（Yozai）v0.868 的子集。按 SIL OFL 1.1 §3，修改版本不使用上游保留名称，因此子集的 name 表与 CSS 族名改为 `JournalHand`。
+- 上游：https://github.com/lxgw/yozai-font
 - 版权：Copyright 2020, 2024 LXGW；Original Font Data Copyright (C) Y.OzVox
-- 许可：SIL Open Font License 1.1（全文见 `Yozai-OFL.txt`）
+- 许可：SIL Open Font License 1.1（全文见 `Yozai-OFL.txt`）。字体单独适用 OFL，不沿用本仓库代码的 Apache-2.0。
+- 覆盖：全部 6,763 个 GB2312 汉字、ASCII、基本中文标点；不含希腊/西里尔/假名/数学符号，缺字会回退到系统楷体。
 
 ## 贤二体（不打包）
 

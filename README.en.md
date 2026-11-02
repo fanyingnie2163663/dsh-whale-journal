@@ -35,7 +35,7 @@ The Web profile mounts a read-only page (headless / SDK profiles do not register
 
 Served directly by the DSH web server; no extra process.
 
-Font: the page bundles a Yozai subset (OFL 1.1, see `assets/FONT-NOTICE.md`); if XianErTi (贤二体) is installed locally, it is used first. XianErTi is free for commercial use but its license forbids modification or embedding, so the repository does not bundle it.
+Font: the page bundles `JournalHand` (an OFL subset of Yozai, renamed per the OFL reserved-name clause; see `assets/FONT-NOTICE.md`); if XianErTi (贤二体) is installed locally, it is used first. XianErTi is free for commercial use but its license forbids modification or embedding, so the repository does not bundle it.
 
 ## Storage
 

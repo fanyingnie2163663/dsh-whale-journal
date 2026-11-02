@@ -1,6 +1,6 @@
 @font-face {
-  font-family: "Yozai";
-  src: url("/journal/assets/yozai.woff2") format("woff2");
+  font-family: "JournalHand";
+  src: url("/journal/assets/journal-hand.woff2") format("woff2");
   font-display: swap;
 }
 
@@ -98,7 +98,7 @@ body {
   background: var(--paper);
   color: var(--ink);
   padding: 46px 42px 60px 66px;
-  font-family: "XianErTi", "贤二体", "Yozai", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-family: "XianErTi", "贤二体", "JournalHand", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
   font-size: 18.5px;
   line-height: 32px;
   background-image:

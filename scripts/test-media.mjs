@@ -45,6 +45,18 @@ try {
     fs.writeFileSync(big, Buffer.alloc(8 * 1024 * 1024 + 1));
     ok(throws(() => importPhoto(dir, big, { date: '2026-11-02' })), '拒绝超过 8MiB');
     ok(throws(() => photoFile(dir, 'media/../../.credentials.yaml')), '拒绝路径穿越');
+
+    const outside = path.join(dir, 'outside');
+    fs.mkdirSync(outside, { recursive: true });
+    fs.writeFileSync(path.join(outside, 'secret.txt'), 'secret');
+    let linked = false;
+    try {
+      fs.symlinkSync(outside, path.join(dir, 'media', '2026-11-02', 'link'), 'junction');
+      linked = true;
+    } catch {
+      // 某些平台不允许建链接：跳过这一条
+    }
+    if (linked) ok(throws(() => photoFile(dir, 'media/2026-11-02/link/secret.txt')), '拒绝 junction 越界');
   }
 } finally {
   fs.rmSync(dir, { recursive: true, force: true });
