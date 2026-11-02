@@ -4,14 +4,14 @@ A **diary / narrative memory** plugin for companion agents. It does not store an
 
 > Status: v0.1 — tools, storage, digest and grounding audit. Web panel, scheduling and weekly LLM review are on the roadmap.
 
-![The journal page](docs/images/journal-page.png)
+![The journal page](https://cdn.jsdelivr.net/gh/fanyingnie2163663/dsh-whale-journal@main/docs/images/journal-page.png)
 
 <sub>The read-only `/journal` page. The entries in the screenshot are synthetic data from `scripts/preview-page.mjs`, not real chats.</sub>
 
 ## Install
 
 ```sh
-dsh plugin --profile <your-profile> add "github:fanyingnie2163663/dsh-whale-journal#v0.1.2"
+dsh plugin --profile <your-profile> add "github:fanyingnie2163663/dsh-whale-journal#v0.1.3"
 ```
 
 Restart DSH; `dsh --profile <your-profile> --dump-config | grep whale` should show it. Pin a tag or commit

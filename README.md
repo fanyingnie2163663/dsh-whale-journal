@@ -7,18 +7,18 @@
 给陪伴型 agent 的**日记 / 叙事记忆**插件。它不是再存一份聊天记录，而是让 agent 每天写几句「自己视角」的话，
 每句话尽量能回指到当天的消息；句子旁边可以有一笔简笔画、一张照片。
 
-![日记页](docs/images/journal-page.png)
+![日记页](https://cdn.jsdelivr.net/gh/fanyingnie2163663/dsh-whale-journal@main/docs/images/journal-page.png)
 
 <sub>只读的 `/journal` 页面。图里的日记是 `scripts/preview-page.mjs` 生成的合成数据，不是真实聊天。</sub>
 
 ## 装一下
 
 ```sh
-dsh plugin --profile <你的 profile> add "github:fanyingnie2163663/dsh-whale-journal#v0.1.2"
+dsh plugin --profile <你的 profile> add "github:fanyingnie2163663/dsh-whale-journal#v0.1.3"
 ```
 
 重启 DSH 生效，`dsh --profile <你的 profile> --dump-config | grep whale` 能看到就装上了。
-想要更新到最新，把 `#v0.1.2` 换成具体 commit 再装一次；不想被上游改动影响时就固定在这个 tag 上。
+想要更新到最新，把 `#v0.1.3` 换成具体 commit 再装一次；不想被上游改动影响时就固定在这个 tag 上。
 
 装完在 `cordis.yml` 里给它配一个 `transcriptDir`（消息归档目录），`journal_digest` 和 `journal_audit` 才有素材。
 
