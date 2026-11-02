@@ -30,7 +30,7 @@ The Web profile mounts a read-only page (headless / SDK profiles do not register
 
 - `http://127.0.0.1:3080/journal` (local or through an SSH tunnel; never expose it publicly)
 - no edit / upload / delete; it only reads `$DSH_HOME/journal`
-- opening a day records one peek (deduped for 10 minutes); the chat agent reads the facts through `journal_peek`
+- opening a day records one peek (deduped per day for 10 minutes); the chat agent reads the facts through `journal_peek`
 - doodles / photos follow their `anchor` sentence; skipped when the anchor is missing
 
 Served directly by the DSH web server; no extra process.

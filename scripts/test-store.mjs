@@ -127,6 +127,8 @@ try {
     for (const [name, input] of [
       ['空正文', { text: '  ', scope: SCOPE }],
       ['非法日期', { text: 'x', scope: SCOPE, date: '2026/11/02' }],
+      ['日历上不存在', { text: 'x', scope: SCOPE, date: '2026-02-31' }],
+      ['非法月份', { text: 'x', scope: SCOPE, date: '2026-13-01' }],
       ['非法 scope', { text: 'x', scope: '坏 scope' }]
     ]) {
       let threw = false;

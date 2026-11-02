@@ -179,7 +179,7 @@ Schemastery `Config`（`lib/index.js`），所有可调参数不硬编码：
 
 **路线**
 
-- v0.2：Web 面板（按天浏览、编辑、归档、diff）；
+- v0.2：Web 只读页面（`/journal`：按天翻页、简笔画/照片、偷看计数；写入仍只走工具）；
 - v0.3：`/journal` 命令 + 宿主调度；
 - v1.0：周检 LLM 对账报告、日记 → 自卡候选的提议通道。
 
@@ -190,3 +190,15 @@ Schemastery `Config`（`lib/index.js`），所有可调参数不硬编码：
 - 没有加密；依赖 DSH_HOME 的文件权限（服务器上是 700）。
 - 没有跨文件事务；极端断电可能丢最后一行（追加写 + 坏行跳过可接受）。
 - 没有内置调度；夜间写日记必须由桥接/宿主触发。
+
+## 15. 只读页面（/journal）
+
+- 注册：`apply` 里 `ctx.get('webServer')` 存在时，用 `ctx.effect` 注册 `/journal` 前缀路由（disposer 交给 effect）。headless / SDK profile 没有该服务，只少页面，工具不受影响。
+- 代码：`lib/page.js`（按天数据纯函数）、`lib/webserver.js`（HTTP）、`assets/`（HTML/CSS/JS + 字体）。
+- 只读接口：`GET /journal`、`/journal/assets/*`（白名单）、`/journal/api/days`、`/journal/api/day`、`/journal/media/*`；唯一的写是 `POST /journal/api/peek`。
+- 来源策略：Host 必须是 loopback（127.0.0.1 / localhost / [::1]）；peek 要求 `application/json`、同源 Origin / Sec-Fetch-Site；不把「只监听 loopback」当唯一防线。
+- 路径：媒体只服务 `journal/media/` 的真实路径（realpath + 包含校验，拒绝 junction/symlink）。
+- 渲染：正文/caption 一律 textContent；SVG 在服务端净化的基础上，客户端再按标签 + 属性 + 值白名单重建。
+- 字体：`assets/journal-hand.woff2`（悠哉子集，按 OFL §3 改名 `JournalHand`；许可见 `assets/Yozai-OFL.txt` 与 `assets/FONT-NOTICE.md`）。贤二体不打包，只做本机字体的优先回退。
+- 测试：`scripts/test-page.mjs`、`scripts/test-webserver.mjs`、`scripts/test-peek.mjs`；`scripts/preview-page.mjs` 是开发预览。
+- 验收：`npm test` / `npm run check`；真实 web profile 上确认 `/journal`、assets、媒体、peek 与 Host/Origin 行为。

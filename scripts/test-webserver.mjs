@@ -69,6 +69,10 @@ try {
     const css = await fetch(`${base}/journal/assets/journal.css`);
     ok(css.status === 200 && (css.headers.get('content-type') ?? '').includes('text/css'), 'CSS 资源');
     ok((await fetch(`${base}/journal/assets/secret.txt`)).status === 404, '非白名单资产 404');
+    const headPage = await rawRequest('/journal', { method: 'HEAD' });
+    ok(headPage.status === 200 && headPage.body === '', 'HEAD 页面 200 且无 body');
+    const postPage = await rawRequest('/journal', { method: 'POST' });
+    ok(postPage.status === 405 && (postPage.headers.allow ?? '').includes('GET'), 'POST 页面 405 + Allow');
   }
 
   console.log('\n## 数据接口');
@@ -79,12 +83,18 @@ try {
     ok(day.entries.length === 1 && day.entries[0].text === '今天画了晚霞。', 'day 返回条目');
     ok((await fetch(`${base}/journal/api/day?date=bad`)).status === 400, '坏 date 400');
     ok((await fetch(`${base}/journal/nope`)).status === 404, '未知路径 404');
+    const headDay = await rawRequest('/journal/api/day?date=2026-11-02', { method: 'HEAD' });
+    ok(headDay.status === 200 && headDay.body === '', 'HEAD API 200 且无 body');
+    const postDays = await rawRequest('/journal/api/days', { method: 'POST' });
+    ok(postDays.status === 405 && postDays.headers.allow === 'GET, HEAD', 'POST API 405 + Allow');
   }
 
   console.log('\n## 媒体');
   {
     const okImg = await fetch(`${base}/journal/media/2026-11-02/a.jpg`);
     ok(okImg.status === 200 && okImg.headers.get('content-type') === 'image/jpeg', '媒体 200 + 类型');
+    const headImg = await rawRequest('/journal/media/2026-11-02/a.jpg', { method: 'HEAD' });
+    ok(headImg.status === 200 && headImg.body === '', 'HEAD 媒体 200 且无 body');
     const bad = await fetch(`${base}/journal/media/%2e%2e%2f%2e%2e%2fcredentials.yaml`);
     ok(bad.status === 404 || bad.status === 400, '媒体穿越被拒绝');
     if (linked) {
@@ -143,6 +153,13 @@ try {
       body: JSON.stringify({ date: '2026-11-03', scope: 'x'.repeat(200) })
     });
     ok(badScope.status === 400, '非法 scope 400');
+
+    const huge = await rawRequest('/journal/api/peek', {
+      method: 'POST',
+      headers: jsonHeaders,
+      body: JSON.stringify({ date: '2026-11-04', pad: 'x'.repeat(9000) })
+    });
+    ok(huge.status === 413, '超大 body 413');
   }
 } finally {
   server.closeAllConnections?.();

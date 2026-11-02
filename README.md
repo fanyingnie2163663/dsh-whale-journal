@@ -30,7 +30,7 @@ Web profile 里会挂一个只读页面（headless / SDK profile 没有这个路
 
 - 地址：`http://127.0.0.1:3080/journal`（本机或 SSH 隧道；不要暴露公网）
 - 没有编辑 / 上传 / 删除，只读 `$DSH_HOME/journal`
-- 打开某天记一次偷看（同一页 10 分钟内不重复），聊天里的 AI 用 `journal_peek` 读事实
+- 打开某天记一次偷看（同一天 10 分钟内不重复），聊天里的 AI 用 `journal_peek` 读事实
 - 简笔画 / 照片按 `anchor` 跟着句子；锚点找不到就不画
 
 页面由 DSH 的 Web 服务直接提供，不额外起进程。

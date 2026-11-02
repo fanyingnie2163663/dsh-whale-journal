@@ -25,6 +25,7 @@ try {
   {
     ok(recordPeek(dir, { date: '2026-11-02', now: t0 }).recorded === true, '第一次记录');
     ok(recordPeek(dir, { date: '2026-11-02', now: t0 + 599000 }).recorded === false, '9:59 内不重复记');
+    ok(recordPeek(dir, { date: '2026-11-02', scope: 'group:100000001', now: t0 + 590000 }).recorded === false, '同一天换 scope 仍算同一页');
     ok(recordPeek(dir, { date: '2026-11-02', now: t0 + 601000 }).recorded === true, '10:01 后重新记');
     ok(recordPeek(dir, { date: '2026-11-01', now: t0 + 602000 }).recorded === true, '不同日期不互相去重');
   }
