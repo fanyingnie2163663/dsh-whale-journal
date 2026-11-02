@@ -35,6 +35,8 @@ Web profile 里会挂一个只读页面（headless / SDK profile 没有这个路
 
 页面由 DSH 的 Web 服务直接提供，不额外起进程。
 
+字体：页面自带「悠哉字体」子集（OFL 1.1，见 `assets/FONT-NOTICE.md`）；如果本机装了「贤二体」，字体会优先用它。贤二体免费商用，但授权不允许修改/嵌入，所以仓库不打包它。
+
 ## 存储
 
 `$DSH_HOME/journal/entries.jsonl`，一行一条 JSON。编辑/归档不会覆盖历史：追加一条同 `id` 的新记录，读取时按 `id` 折叠（后写胜出）。

@@ -1,3 +1,9 @@
+@font-face {
+  font-family: "Yozai";
+  src: url("/journal/assets/yozai.woff2") format("woff2");
+  font-display: swap;
+}
+
 :root {
   --paper: #fcfcf8;
   --ink: #2f4a86;
@@ -92,7 +98,7 @@ body {
   background: var(--paper);
   color: var(--ink);
   padding: 46px 42px 60px 66px;
-  font-family: "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
+  font-family: "XianErTi", "贤二体", "Yozai", "KaiTi", "STKaiti", "Kaiti SC", "楷体", serif;
   font-size: 17px;
   line-height: 32px;
   background-image:
