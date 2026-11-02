@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>本子</title>
+<link rel="stylesheet" href="/journal/assets/journal.css">
+</head>
+<body>
+<header class="bar">
+  <a id="prev" class="nav" href="#" aria-label="前一天">‹</a>
+  <div class="center">
+    <span id="date" class="date"></span>
+    <span id="note" class="note"></span>
+  </div>
+  <a id="next" class="nav" href="#" aria-label="后一天">›</a>
+  <select id="scope" class="scope" aria-label="场景">
+    <option value="">全部</option>
+  </select>
+</header>
+<main id="sheet" class="sheet" aria-live="polite"></main>
+<svg class="defs" aria-hidden="true"><defs>
+  <filter id="ink" x="-6%" y="-6%" width="112%" height="112%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.045 0.075" numOctaves="2" seed="5" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="1.0" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</defs></svg>
+<script type="module" src="/journal/assets/journal.js"></script>
+</body>
+</html>
