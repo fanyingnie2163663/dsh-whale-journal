@@ -164,6 +164,15 @@ try {
         })),
         'photos 超过 3 张抛错'
       );
+      ok(
+        throws(() => writeEntry(artDir, {
+          text: 'x',
+          scope: 'global',
+          date: '2026-11-03',
+          doodle: { svg: '<script>alert(1)</script>', anchor: 'a' }
+        })),
+        'store 拒绝未净化 SVG'
+      );
       const plain = writeEntry(artDir, { text: '没有画也没有照片。', scope: 'global', date: '2026-11-03' }, { now: Date.now(), maxEntriesPerDay: 3 });
       const plainBack = loadEntries(artDir).find((e) => e.id === plain.entry.id);
       ok(!('doodle' in plainBack) && !('photos' in plainBack), '没有画/照片时不写这两个字段');
