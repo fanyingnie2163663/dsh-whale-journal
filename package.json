@@ -1,6 +1,6 @@
 {
   "name": "dsh-whale-notes",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "小肥鱼日记：给陪伴型 agent 的日记/叙事记忆插件。按天写作、按场景存储、可接地审计。",
   "type": "module",
   "main": "lib/index.js",

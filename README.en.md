@@ -4,18 +4,18 @@ A **diary / narrative memory** plugin for companion agents. It does not store an
 
 > Status: v0.1 — tools, storage, digest and grounding audit. Web panel, scheduling and weekly LLM review are on the roadmap.
 
-![The journal page](https://raw.githubusercontent.com/fanyingnie2163663/dsh-whale-notes/main/docs/images/journal-page.png)
+![The journal page](docs/images/journal-page.png)
 
 <sub>The read-only `/journal` page. The entries in the screenshot are synthetic data from `scripts/preview-page.mjs`, not real chats.</sub>
 
 ## Install
 
 ```sh
-dsh plugin --profile <your-profile> add "github:fanyingnie2163663/dsh-whale-notes#main"
+dsh plugin --profile <your-profile> add "github:fanyingnie2163663/dsh-whale-notes#v0.1.1"
 ```
 
-Restart DSH; `dsh --profile <your-profile> --dump-config | grep whale` should show it. Pin a commit instead of
-`#main` in production. Point `transcriptDir` at your message archive so `journal_digest` / `journal_audit` have material.
+Restart DSH; `dsh --profile <your-profile> --dump-config | grep whale` should show it. Pin a tag or commit
+instead of `#main` in production. Point `transcriptDir` at your message archive so `journal_digest` / `journal_audit` have material.
 
 
 ## What it is / is not
@@ -80,7 +80,7 @@ Validated by the Schemastery `Config` in `lib/index.js`.
 
 ```sh
 pnpm pack
-dsh plugin --profile <name> add ./dsh-whale-notes-0.1.0.tgz
+dsh plugin --profile <name> add ./dsh-whale-notes-0.1.1.tgz
 dsh --profile <name> --dump-config | grep dsh-whale-notes
 ```
 
