@@ -11,11 +11,11 @@ A **diary / narrative memory** plugin for companion agents. It does not store an
 ## Install
 
 ```sh
-dsh plugin --profile <your-profile> add "github:fanyingnie2163663/dsh-whale-journal#v0.1.3"
+dsh plugin --profile <your-profile> add "https://github.com/fanyingnie2163663/dsh-whale-journal/releases/download/v0.1.3/dsh-whale-journal-0.1.3.tgz"
 ```
 
-Restart DSH; `dsh --profile <your-profile> --dump-config | grep whale` should show it. Pin a tag or commit
-instead of `#main` in production. Point `transcriptDir` at your message archive so `journal_digest` / `journal_audit` have material.
+Restart DSH; `dsh --profile <your-profile> --dump-config | grep whale` should show it. This is a prebuilt
+tarball — no local build step. Point `transcriptDir` at your message archive so `journal_digest` / `journal_audit` have material.
 
 
 ## What it is / is not

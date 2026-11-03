@@ -14,11 +14,11 @@
 ## 装一下
 
 ```sh
-dsh plugin --profile <你的 profile> add "github:fanyingnie2163663/dsh-whale-journal#v0.1.3"
+dsh plugin --profile <你的 profile> add "https://github.com/fanyingnie2163663/dsh-whale-journal/releases/download/v0.1.3/dsh-whale-journal-0.1.3.tgz"
 ```
 
 重启 DSH 生效，`dsh --profile <你的 profile> --dump-config | grep whale` 能看到就装上了。
-想要更新到最新，把 `#v0.1.3` 换成具体 commit 再装一次；不想被上游改动影响时就固定在这个 tag 上。
+这是预构建包，不需要本地编译；升级时换新版本的同名 tarball 再装一次。
 
 装完在 `cordis.yml` 里给它配一个 `transcriptDir`（消息归档目录），`journal_digest` 和 `journal_audit` 才有素材。
 
